@@ -1,0 +1,11 @@
+### Test Cases
+1. Biological duplicates (line 34)
+2. PCR duplicates (lines 28,33,35,37)
+    a. with and without non-impactful soft-clipping (i.e., doesn't change the actual 5' position)
+3. Non-duplicates (lines 25,26,27,29,30,32,36)
+    a. same everything, but mapped to a bigger 5' position (line 25)
+    b. same everything, but mapped to a smaller 5' position (line 26)
+    c. on reverse strand (29)
+    d. on reverse, with impactful soft clipping (30)
+    e. on forward with impactful soft clipping (32)
+    f. on a different chromosome (36)

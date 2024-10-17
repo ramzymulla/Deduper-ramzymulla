@@ -6,7 +6,6 @@ of each molecule in the original sample. This is based on
 4 attributes: ```chromosome #```, ```5' start position```, ```strand```, and ```UMI```
 (unique molecular identifier located in the QNAME).
 
-
 ### Pseudocode:
 ```
 for read in SAM file:
