@@ -2,6 +2,8 @@
 logs/bad/
 Answers.md
 unit_tests/
+westests/
+*test*
 
 # bioinfo files
 *.fastq

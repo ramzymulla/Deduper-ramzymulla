@@ -54,9 +54,8 @@ def calculate_pos(POS:int, CIGAR: str, reverse = False)->int:
         if "S" in cigar[-1]:
             pos += int(cigar[-1].strip("S"))
 
-    else:
-        if "S" in cigar[0]:
-            pos += int(cigar[0].strip("S"))
+    elif "S" in cigar[0]:
+        pos -= int(cigar[0].strip("S"))
 
     return pos
 
@@ -107,13 +106,13 @@ header_lines = 0
 
 with open(SAMfile,'r') as fin, open(OUTfile,'w') as fout:
     # write header lines
-    line = fin.readline()
-    
+    line = fin.readline().strip()
+    fout.write(line)
+    line= fin.readline().strip()
     while line[0] == "@":
         header_lines += 1
-        fout.write(line)
-        line = fin.readline()
-    line = line.strip()
+        fout.write("\n"+line)
+        line = fin.readline().strip()
 
     while line:
         cols = line.split()
