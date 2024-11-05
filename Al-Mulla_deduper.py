@@ -32,21 +32,12 @@ def calculate_pos(POS:int, CIGAR: str, reverse = False)->int:
     Determines the 5' starting position based on the recorded position, 
     the CIGAR string, and which strand it's on
     '''
-    # cigs = set(['M','S','D','I','N'])
     cigar = re.findall(r"(\d+\D)",CIGAR)
 
     pos = POS
     consumes_ref = set(['M','D','N'])
-    # prev_cig = 0
 
     if reverse:
-        # for i,chr in enumerate(CIGAR):
-        #     if chr in cigs: 
-        #         if chr in consumes_ref or i == len(CIGAR):
-        #             adj += int(CIGAR[prev_cig:i])
-                
-        #         prev_cig = i+1
-
         for cig in cigar:
             if cig[-1] in consumes_ref:
                 pos += int(cig.strip(cig[-1]))
