@@ -93,7 +93,7 @@ chrom_read_counts = {}
 unique_reads = 0
 wrong_umis = 0
 duplicates_removed = 0
-header_lines = 0
+header_lines = 1
 
 with open(SAMfile,'r') as fin, open(OUTfile,'w') as fout:
     # write header lines
@@ -141,7 +141,7 @@ with open(SAMfile,'r') as fin, open(OUTfile,'w') as fout:
                 fout.write("\n"+line)
             else:
                 duplicates_removed += 1
-                
+
         line = fin.readline().strip()
 
 with open("deduper_stats.txt",'w') as f:
