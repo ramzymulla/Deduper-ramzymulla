@@ -35,7 +35,7 @@ def calculate_pos(POS:int, CIGAR: str, reverse = False)->int:
     cigar = re.findall(r"(\d+\D)",CIGAR)
 
     pos = POS
-    consumes_ref = set(['M','D','N'])
+    consumes_ref = set(['M','D','N','X','='])
 
     if reverse:
         for cig in cigar:
