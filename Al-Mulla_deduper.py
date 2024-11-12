@@ -14,16 +14,20 @@ rnameind = 2
 posind = 3
 cigarind = 5
 
+
 def get_args():
     '''Parses user inputs from command line'''
-    parser = arp.ArgumentParser(description="arg parser") 
-    parser.add_argument("-f","--file", help="absolute path to input SAM file",
+    parser = arp.ArgumentParser(description='''This is a Python program for reference-based removal of PCR duplicates from RNA-seq data. 
+It requires two input files: a SAM file containing the aligned transcript sequences, and a text
+file containing a list of unique molecular identifiers (UMIs). The program assumes the input SAM 
+file is sorted by chromosome. This can be accomplished with the following SAMTOOLS command:
+"samtools sort <path to unsorted SAM file> -o <path to sorted output SAM file>"''') 
+    parser.add_argument("-f","--file", help="absolute path to input SAM file (must be sorted by chromosome!)",
                         required=True)
     parser.add_argument("-o","--outfile", help="absolute path to sorted output SAM file",
                         required=True)
     parser.add_argument("-u","--umi", help="absolute path to UMI file",
                         required=True)
-    # parser.add_argument("-h","--help", help="")
     return parser.parse_args()
 
 
@@ -32,20 +36,30 @@ def calculate_pos(POS:int, CIGAR: str, reverse = False)->int:
     Determines the 5' starting position based on the recorded position, 
     the CIGAR string, and which strand it's on
     '''
+
+    # split CIGAR into list of number-character pairs 
+    #   (e.g., '5S60M' -> ['5S','60M'])
     cigar = re.findall(r"(\d+\D)",CIGAR)
 
     pos = POS
     consumes_ref = set(['M','D','N','X','='])
 
+    # check if it's the reverse strand
     if reverse:
+
+        # interate through each number-character pair
         for cig in cigar:
             if cig[-1] in consumes_ref:
+                # increment position if it consumes reference
                 pos += int(cig.strip(cig[-1]))
         
         if "S" in cigar[-1]:
+            # increment position for right-side soft clipping
             pos += int(cigar[-1].strip("S"))
 
+
     elif "S" in cigar[0]:
+        # decrement position only for left-side soft clipping
         pos -= int(cigar[0].strip("S"))
 
     return pos
